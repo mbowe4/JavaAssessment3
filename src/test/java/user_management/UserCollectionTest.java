@@ -104,7 +104,7 @@ public class UserCollectionTest {
     @Test
     public void createUser() throws PasswordTooSimpleException, EmailNotAvailableException, InvalidEmailException {
         int wilhemId = users.createUser("Wilhem Alcivar","wilhem@zipcodewilmington.com", "1SecurePasswordComingUp!");
-        int leonId = users.createUser("Leon Hunter", "leon@zipcodewilmington.co.uk", "1SecurePasswordComingUp!");
+        int leonId = users.createUser("Leon Hunter", "leon@zipcodewilmington.com", "1SecurePasswordComingUp!");
         int nhuId = users.createUser("Nhu Nguyen", "nhu@zipcodewilmington.org", "1SecurePasswordComingUp!");
 
         assertEquals(wilhemId, 1001);

@@ -14,7 +14,6 @@ public class AuthenticatorTest {
     @Test
     public void testAuthenticate() throws IOException {
         User user = UserCollectionInitializer.generate().findByEmail("apolon0@weebly.com");
-
         assertTrue(authenticate(user, "apolon0@weebly.com"));
     }
 }

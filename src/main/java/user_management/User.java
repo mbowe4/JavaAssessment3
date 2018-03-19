@@ -76,11 +76,6 @@ public class User {
                 Objects.equals(getPassword(), user.getPassword());
     }
 
-//    @Override
-//    public int hashCode() {
-//
-//        return Objects.hash(getEmail(), getId(), getName(), getPassword());
-//    }
 
 //    @Override
 //    public boolean equals(Object obj) {
