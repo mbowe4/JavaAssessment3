@@ -9,19 +9,26 @@ import user_management.validation.PasswordTooSimpleException;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class UserCollection extends ArrayList<User> {
     private List<User> userList;
 
     public User findById(int id) {
+//        try {
+//            userList = UserCollectionInitializer.generate();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
         try {
-            userList = UserCollectionInitializer.generate();
+            this.addAll(UserCollectionInitializer.generate());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         User result = null;
-        for(User user: userList) {
+        for(User user: this) {
             if (user.getId() == id) {
                 result = user;
             }
@@ -30,13 +37,19 @@ public class UserCollection extends ArrayList<User> {
     }
 
     public User findByEmail(String email) {
+//        try {
+//            userList = UserCollectionInitializer.generate();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
         try {
-            userList = UserCollectionInitializer.generate();
+            this.addAll(UserCollectionInitializer.generate());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
         User result = null;
-        for(User user: userList) {
+        for(User user: this) {
             if(user.getEmail().equals(email)) {
                 result = user;
             }
@@ -67,7 +80,7 @@ public class UserCollection extends ArrayList<User> {
             throw new EmailNotAvailableException();
         }
 
-        if(!email.matches("[a-zA-Z0-9-\\\\+_]+?@[a-zA-Z0-9-\\\\+]+?\\.[A-Za-z.]{2,3}")) {
+        if(!email.matches("[a-zA-Z0-9-\\\\+_]+?@[a-zA-Z0-9-\\\\+]+?\\.[A-Za-z.]{2,5}")) {
             throw new InvalidEmailException();
         }
 
@@ -75,37 +88,41 @@ public class UserCollection extends ArrayList<User> {
             throw new PasswordTooSimpleException();
         }
 
-        User newUser = new User(0, name, email, password);
+        User newUser = new User(getNewID(), name, email, password);
 
-        if (this.userList.contains(this.findById(newUser.getId()))) {
-            int nextId = newUser.getId();
-            nextId++;
-            newUser.setId(nextId);
-        }
+//        if (this.userList.contains(this.findById(newUser.getId()))) {
+//            int nextId = newUser.getId();
+//            nextId++;
+//            newUser.setId(nextId);
+//        }
 
+        this.add(newUser);
         return newUser.getId();
-
-
     }
 
-//    public int getNewID() {
-//        int nextId = 0;
+    public int getNewID() {
+        int nextId = 1;
+
 //        try {
 //            userList = UserCollectionInitializer.generate();
 //        } catch (FileNotFoundException e) {
 //            e.printStackTrace();
 //        }
-//
-//        List<Integer> userIds = new ArrayList<>();
-//        for(User user: userList) {
-//            userIds.add(user.getId());
-//        }
-//
-//        if (userIds.contains(nextId)) {
-//            nextId++;
-//            userIds.add(nextId);
-//        }
-//
-//        return nextId;
-//    }
+
+        List<Integer> userIds = new ArrayList<>();
+        for(User user: this) {
+            userIds.add(user.getId());
+        }
+
+
+        ListIterator litr = userIds.listIterator();
+
+        while(litr.hasNext()) {
+            int nextIdInList = (int) litr.next();
+            if(nextIdInList == nextId) {
+                nextId++;
+            }
+        }
+        return nextId;
+    }
 }
