@@ -1,5 +1,4 @@
 package user_management.security;
-
 import user_management.User;
 
 public class Authenticator {
